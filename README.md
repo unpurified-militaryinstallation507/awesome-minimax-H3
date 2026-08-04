@@ -4,6 +4,9 @@ A curated list of models, text encoders, quants, and tools for the MiniMax-H3 om
 
 <div align="center">
 
+<img src="https://github.com/user-attachments/assets/0c373d38-4c80-4140-b17e-4cfc6aa281c7" />
+
+
 [![Telegram][telegram-shield]][telegram-url]
 [![X][x-shield]][x-url]
 
