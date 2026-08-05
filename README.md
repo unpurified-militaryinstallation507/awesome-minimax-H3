@@ -354,29 +354,19 @@ Quickly trained 2D tiny VAE for MiniMax-H3 by [Kijai](https://huggingface.co/Kij
 
 ## ▓ ComfyUI Nodes
 
-### ▣ Custom Node Collections
-
-* [MiniMax H3 Hybrid Cond](https://github.com/kitsune123150/minimax-h3-hybrid-cond) by kitsune123150 - ComfyUI custom node for MiniMax H3 conditioning. Supports both reference-to-video (`ref2va` / R2V) and first/last-frame video conditioning (`fl2va` / I2V), including a hybrid mode that uses both in one conditioning payload. Required model inputs are the H3 video VAE, H3 audio VAE, and the matching H3 CLIP/text encoder. The node outputs a positive conditioning and an AV latent with native audio.
-
-* [MiniMaxH3 LatentUpscaler](https://github.com/Tr1dae/ComfyUI-MiniMaxH3_LatentUpscaler) by Tr1dae - ComfyUI custom node for latent spatial upscaling between MiniMax H3 samplers. Not a learned AI upscaler — handles the stock `LatentUpscaleBy` / `AddNoise` breakage on MiniMax's ComfyUI `NestedTensor` AV latents (`video [B,24,T,H/16,W/16]` + `audio [B,32,2,T_audio]`). Upscales video H/W via `F.interpolate`, re-noises video at `sigmas[0]`, and optionally re-noises audio for pass-2 polish. Also spatially upscales `minimax_refs` / `minimax_keyframes` visual latents and syncs `latent_h` / `latent_w`.
-
-* [ComfyUI-SolAttn_triton](https://github.com/kijai/ComfyUI-SolAttn_triton) by kijai - SolAttention triton kernel implementation for ComfyUI. Provides optimized attention computation for MiniMax-H3 and other models using the SolAttention mechanism.
-
-* [ComfyUI-sol-attn](https://github.com/Saganaki22/ComfyUI-sol-attn) by Saganaki22 - NVIDIA Sol-Attn Triton kernel for SM89/SM90/SM100/SM120 with zero-copy MiniMax H3 nodes: memory-efficient attention, scheduled tau with graph preview, and feed-forward chunking. Measured 1.14–1.44× vs SageAttention and −37% MLP peak VRAM on H3. Vendored NVIDIA Apache-2.0 kernel with SM120 (RTX 50-series) enablement.
-
-* [ComfyUI Spectrum MiniMax H3](https://github.com/xmarre/ComfyUI-Spectrum-MiniMax-H3) by xmarre - Spectrum-based acceleration for ComfyUI's native MiniMax H3 audio-video model. Forecasts post-transformer features with Chebyshev ridge regression to skip selected transformer evaluations, with adaptive scheduling, sampler-aware safeguards, CPU/VRAM history storage, and native fallbacks. Reduces expensive H3 transformer evaluations during sampling.
-
-* [ComfyUI-H3-Multishot](https://github.com/jlucasmcrell/ComfyUI-H3-Multishot) by jlucasmcrell - Multishot video+audio generation for MiniMax-H3 in ComfyUI: one script, N chained shots, one seam-clean master. Includes a dual-format model loader (safetensors + GGUF), keyframes at any position (not just first/last), condition strength control, and stereo audio guard for reference clips.
-
-* [ComfyUI MiniMax H3 Image Studio](https://github.com/astropuzzo/ComfyUI-MiniMax-H3-Image-Studio) by astropuzzo - Image-first ComfyUI nodes for using MiniMax H3 as a text-to-image, image-to-image, and reference-edit generator. Provides image-oriented conditioning, arbitrary frame counts, resolution controls up to 64 MP, automatic still-frame scoring, and single-image output.
-
-* [ComfyUI MiniMax H3 Director](https://github.com/seesee75-commits/ComfyUI-MiniMaxH3-Director) by seesee75-commits - Timeline editor for MiniMax H3 inside ComfyUI. Drag images, videos and music onto tracks, trim them on a ruler, write a prompt per shot, press Run. Storyboard-based approach with live sampling preview, retakes, and shot chaining. Ported from the LTX Director by WhatDreamsCost.
-
-* [ComfyUI Fantastic MiniMax H3 Prompt Builder](https://github.com/Adudeguyman/ComfyUI-Fantastic-MiniMaxH3-PromptBuilder) by Adudeguyman - Guided prompt writing and reference-media handling for MiniMax H3. Fillable templates for every prompt mode, live checking against the official guide's rules, and a media loader that keeps reference tags straight. Three nodes: Prompt Builder, Media Loader, and Reference Splitter.
-
-* [ComfyUI MiniMax-H3 Prompt Enhancer T8](https://github.com/T8mars/comfyui-minimax-h3-prompt-enhancer-T8) by T8mars - Prompt enhancer node for MiniMax-H3 video generation. Calls `bytedance/doubao-seed-evolving` to analyze text, images, and video together, outputting a structured prompt string. Supports T2VA, I2VA, FL2VA, L2VA, Ref2VA with strict/balanced/creative modes and Chinese/English output.
-
-* [minimax-h3-mlx](https://github.com/mrbizarro/minimax-h3-mlx) by mrbizarro - MLX (Apple Silicon) port of MiniMax-H3 — 33B joint video+audio diffusion. Validated against the diffusers reference. AdaLN precompute drops 13B of parameters at inference. From-scratch MLX implementation of the full pipeline (not `mlx_lm.convert`).
+| Node | Author | Category | Description |
+| :--- | :--- | :---: | :--- |
+| [MiniMax H3 Hybrid Cond](https://github.com/kitsune123150/minimax-h3-hybrid-cond) | kitsune123150 | ![Conditioning][cat-cond] | Hybrid R2V + I2V conditioning in one payload. Outputs positive conditioning and AV latent with native audio. |
+| [ComfyUI-H3-Multishot](https://github.com/jlucasmcrell/ComfyUI-H3-Multishot) | jlucasmcrell | ![Conditioning][cat-cond] | Multishot video+audio generation — N chained shots from one script, seam-clean master. Keyframes at any position, dual-format loader (safetensors + GGUF). |
+| [ComfyUI MiniMax H3 Director](https://github.com/seesee75-commits/ComfyUI-MiniMaxH3-Director) | seesee75-commits | ![Conditioning][cat-cond] | Timeline editor with storyboard — drag media onto tracks, trim on a ruler, write a prompt per shot. Live sampling preview, retakes, shot chaining. |
+| [ComfyUI MiniMax H3 Image Studio](https://github.com/astropuzzo/ComfyUI-MiniMax-H3-Image-Studio) | astropuzzo | ![Conditioning][cat-cond] | Image-first nodes for T2I, I2I, and reference editing. Arbitrary frame counts, resolution up to 64 MP, automatic still-frame scoring. |
+| [Fantastic MiniMax H3 Prompt Builder](https://github.com/Adudeguyman/ComfyUI-Fantastic-MiniMaxH3-PromptBuilder) | Adudeguyman | ![Prompt][cat-prompt] | Fillable prompt templates for every H3 mode with live guide-rule checking and a media loader that manages reference tags. |
+| [MiniMax-H3 Prompt Enhancer T8](https://github.com/T8mars/comfyui-minimax-h3-prompt-enhancer-T8) | T8mars | ![Prompt][cat-prompt] | Multimodal prompt enhancer calling `doubao-seed-evolving`. Analyzes text, images, and video together. Supports all H3 modes, strict/balanced/creative, CN/EN output. |
+| [MiniMaxH3 LatentUpscaler](https://github.com/Tr1dae/ComfyUI-MiniMaxH3_LatentUpscaler) | Tr1dae | ![Upscaling][cat-upscale] | Latent spatial upscaler for H3's `NestedTensor` AV latents. Re-noises video/audio for two-pass sampling, scales `minimax_refs`/`minimax_keyframes` conditioning. |
+| [ComfyUI-SolAttn_triton](https://github.com/kijai/ComfyUI-SolAttn_triton) | kijai | ![Acceleration][cat-accel] | SolAttention Triton kernel for ComfyUI. Optimized attention computation for H3 and other Sol-Attn models. |
+| [ComfyUI-sol-attn](https://github.com/Saganaki22/ComfyUI-sol-attn) | Saganaki22 | ![Acceleration][cat-accel] | Zero-copy Sol-Attn for SM89–SM120 with scheduled tau, graph preview, and feed-forward chunking. 1.14–1.44× vs SageAttention, −37% MLP peak VRAM on H3. |
+| [ComfyUI Spectrum MiniMax H3](https://github.com/xmarre/ComfyUI-Spectrum-MiniMax-H3) | xmarre | ![Acceleration][cat-accel] | Spectral feature forecasting — skips selected transformer evaluations via Chebyshev ridge regression. Adaptive scheduling with native fallbacks. |
+| [minimax-h3-mlx](https://github.com/mrbizarro/minimax-h3-mlx) | mrbizarro | ![Port][cat-port] | Apple Silicon MLX port of the full H3 pipeline. AdaLN precompute drops 13B params at inference. Validated against the diffusers reference. |
 
 
 <p id="guides" align="center">◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆</p>
@@ -454,3 +444,9 @@ Official ComfyUI workflow templates for MiniMax-H3:
 [badge-Q5_0]: https://img.shields.io/badge/Q5__0-97c00f?style=flat-square
 [badge-Q5_K_M]: https://img.shields.io/badge/Q5__K__M-97c00f?style=flat-square
 [badge-Q5_K_S]: https://img.shields.io/badge/Q5__K__S-97c00f?style=flat-square
+
+[cat-cond]: https://img.shields.io/badge/Conditioning-0077cc?style=flat-square
+[cat-prompt]: https://img.shields.io/badge/Prompt-28a745?style=flat-square
+[cat-upscale]: https://img.shields.io/badge/Upscaling-fe7d37?style=flat-square
+[cat-accel]: https://img.shields.io/badge/Acceleration-6f42c1?style=flat-square
+[cat-port]: https://img.shields.io/badge/Port-17a2b8?style=flat-square
